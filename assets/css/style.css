@@ -51,8 +51,8 @@ form p, form label {
   color: #FFF;
 }
 
-form input {
-  background-color: #303030;
+form input[type="text"]#website {
+  display: none;
 }
 
 @media screen and (max-width: 768px) {

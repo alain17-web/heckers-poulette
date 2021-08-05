@@ -58,9 +58,11 @@ form{
         color:#FFF;
     }
 
-    input{
-        background-color: #303030;
+    input[type="text"]#website { 
+        display: none; 
     }
+
+    
 }
 
 @media screen and (max-width: 768px){

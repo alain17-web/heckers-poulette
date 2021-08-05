@@ -1,40 +1,58 @@
 <?php 
 
 require './files/countries.php';
+require './vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+//use PHPMailer\PHPMailer\SMTP;
+//use PHPMailer\PHPMailer\Exception;
 
 
-/*use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 
-require './PHPMailer-master/src/Exception.php';
-require './PHPMailer-master/src/PHPMailer.php';
-require './PHPMailer-master/src/SMTP.php';
-require '';*/
 
 if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POST['subject'])){
 
     $name = htmlspecialchars(strip_tags(trim($_POST['name'])),ENT_QUOTES);
     $gender = htmlspecialchars(strip_tags(trim($_POST['gender'])),ENT_QUOTES);
-    $mail = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+    $themail = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
     $country = htmlspecialchars(strip_tags(trim($_POST['country'])),ENT_QUOTES);
     $subject = htmlspecialchars(strip_tags(trim($_POST['subject'])),ENT_QUOTES);
     $message = htmlspecialchars(strip_tags(trim($_POST['message'])),ENT_QUOTES);
 
+    echo $country;
+    echo $subject;
     
-    if(!empty($name) && !empty($gender) && !empty($mail) && !empty($country) && !empty($message)){
+    if(!empty($name) && !empty($gender) && !empty($themail) && !empty($country) && !empty($message)){
 
-            $to = "roosalain17@yahoo.fr";
+            //method by mail() with headers
+            /*$to = "roosalain17@yahoo.fr";
             $mailserver = "web2020.alain@gmail.com";
             
             $headers = 'From: ' . $mailserver . "\r\n" . 
                         'Reply-to: ' . $mail . "\r\n" . 
                         'X-Mailer: PHP/' . phpversion();
                            
-            $send = @mail( $to,$subject, $message,$headers);
+            $send = @mail( $to,$subject, $message,$headers);*/
 
+            //with PHPMailer
+            $phpmailer = new PHPMailer();
+            $phpmailer->isSMTP();
+            $phpmailer->Host = 'smtp.mailtrap.io';
+            $phpmailer->SMTPAuth = true;
+            $phpmailer->Port = 2525;
 
+            $phpmailer->SMTPOptions = array( 'ssl' => array( 'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true ) );
+            
+            $phpmailer->Username = 'ffc79f0a243c91';
+            $phpmailer->Password = '5682e7cceff598';
 
+            $phpmailer->setFrom('web2020.alain@gmail.com', 'Alain');
+            $phpmailer->addAddress($themail, $name);     
+            $phpmailer->addReplyTo('info@mailtrap.io', 'Mailtrap');
+            $phpmailer->Subject = $subject;
+            $phpmailer->Body = $message;
+            $send = $phpmailer->send();
             if($send){
                 echo "<div class='container-fluid mt-5 pt-5>
                             <div class='row text-center mt-5'>
@@ -45,6 +63,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
                             </div>
                         </div>";
             }
+            
             else{
                 echo "<div class='container-fluid mt-5 pt-5>
                             <div class='row text-center mt-5'>
@@ -54,6 +73,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
                                 </div>
                             </div>
                         </div>";
+                echo 'Mailer Error: ' . $phpmailer->ErrorInfo;
             }
     }
     else{
@@ -66,8 +86,8 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
                 </div>
             </div>";
     }
-}
 
+}
 
 
 
@@ -102,14 +122,15 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             <div class="mb-3">
                 <label for="name" class="form-label">Name and last name *</label>
                 <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe">
+                <input type="text" name="website" id="website" value="">
             </div>
             <div class="mb-3">
-                <select class="form-select" id="gender" name="gender" multiple aria-label="select a gender">
-                    <option selected>select your gender *</option>
-                    <option value="Female">Female</option>
-                    <option value="Male">Male</option>
-                    <option value="Other">Other</option>
-                </select>
+                <input type="radio" name="gender" value="female">
+                <label for="gender">Female  </label>
+                <input type="radio" name="gender" value="male">
+                <label for="gender">Male</label>
+                <input type="radio" name="gender" value="other">
+                <label for="gender">Other</label>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email address *</label>
@@ -142,7 +163,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
                 <p class="small">* Required</p>
             </div>
             <div class="mb-3 text-center mt-5">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
             
         </form>
@@ -150,5 +171,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./assets/js/app.js"></script>
 </body>
 </html>
