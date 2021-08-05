@@ -4,28 +4,23 @@ require './files/countries.php';
 require './vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-//use PHPMailer\PHPMailer\SMTP;
-//use PHPMailer\PHPMailer\Exception;
-
-
-
 
 
 if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POST['subject'])){
 
-    $name = htmlspecialchars(strip_tags(trim($_POST['name'])),ENT_QUOTES);
-    $gender = htmlspecialchars(strip_tags(trim($_POST['gender'])),ENT_QUOTES);
-    $themail = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
-    $country = htmlspecialchars(strip_tags(trim($_POST['country'])),ENT_QUOTES);
-    $subject = htmlspecialchars(strip_tags(trim($_POST['subject'])),ENT_QUOTES);
-    $message = htmlspecialchars(strip_tags(trim($_POST['message'])),ENT_QUOTES);
+        $name = htmlspecialchars(strip_tags(trim($_POST['name'])),ENT_QUOTES);
+        $gender = htmlspecialchars(strip_tags(trim($_POST['gender'])),ENT_QUOTES);
+        $themail = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+        $country = htmlspecialchars(strip_tags(trim($_POST['country'])),ENT_QUOTES);
+        $subject = htmlspecialchars(strip_tags(trim($_POST['subject'])),ENT_QUOTES);
+        $message = htmlspecialchars(strip_tags(trim($_POST['message'])),ENT_QUOTES);
 
-    echo $country;
-    echo $subject;
+    
     
     if(!empty($name) && !empty($gender) && !empty($themail) && !empty($country) && !empty($message)){
 
             //method by mail() with headers
+            
             /*$to = "roosalain17@yahoo.fr";
             $mailserver = "web2020.alain@gmail.com";
             
@@ -34,6 +29,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
                         'X-Mailer: PHP/' . phpversion();
                            
             $send = @mail( $to,$subject, $message,$headers);*/
+
 
             //with PHPMailer
             $phpmailer = new PHPMailer();
@@ -53,9 +49,10 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             $phpmailer->Subject = $subject;
             $phpmailer->Body = $message;
             $send = $phpmailer->send();
+            var_dump($send);
             if($send){
-                echo "<div class='container-fluid mt-5 pt-5>
-                            <div class='row text-center mt-5'>
+                $alert = "<div class='container-fluid mt-2>
+                            <div class='row text-center'>
                                 <div class='alert alert-success text-center mx-auto'>
                                     <h2 class='display-4'>Your email has been sent</h2>
                                     <a href='' class='h3'>Back to form</a>
@@ -65,7 +62,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             }
             
             else{
-                echo "<div class='container-fluid mt-5 pt-5>
+                $alert =  "<div class='container-fluid mt-5 pt-5>
                             <div class='row text-center mt-5'>
                                 <div class='alert alert-danger text-center mx-auto'>
                                     <h2 class='display-4'>The email could not be sent. Try again</h2>
@@ -77,7 +74,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             }
     }
     else{
-        echo "<div class='container-fluid mt-5 pt-5>
+        $alert =  "<div class='container-fluid mt-5 pt-5>
                 <div class='row text-center mt-5'>
                     <div class='alert alert-danger text-center mx-auto'>
                     <h2 class='display-4'>All the fields are required</h2>
@@ -88,8 +85,6 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
     }
 
 }
-
-
 
 ?>
 
@@ -109,66 +104,67 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
 </head>
 <body>
     <div class="container">
-    <header class>
-        <?php 
-
-        require "./files/header.php";
-
-        ?>
-        <h1 class="mt-5">CONTACT US</h1>
-    </header>
-    <div class="container mt-3 mb-5">
-        <form action="" method="POST" class="mt-5 pt-5">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name and last name *</label>
-                <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe">
-                <input type="text" name="website" id="website" value="">
-            </div>
-            <div class="mb-3">
-                <input type="radio" name="gender" value="female">
-                <label for="gender">Female  </label>
-                <input type="radio" name="gender" value="male">
-                <label for="gender">Male</label>
-                <input type="radio" name="gender" value="other">
-                <label for="gender">Other</label>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address *</label>
-                <input type="email" class="form-control" id="email" name="email" aria-describedby="email address" placeholder="john.doe@domain.com" required>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Your country *</label>
-                <select class="form-select" id="country" name="country" multiple aria-label="select a country">
-                    <option selected>Belgium</option>
-                    <?php 
-                    foreach($countries as $country){?>
-                    <option value="<?php echo $country?>"><?php echo $country?></option>
-                    <?php 
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Subject of your enquiry </label>
-                <select class="form-select" id="subject" name="subject" multiple aria-label="select a subject">
-                    <option selected>select a subject</option>
-                    <option value="My account">My account</option>
-                    <option value="My bill">My bill</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Your message *</label>
-                <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
-                <p class="small">* Required</p>
-            </div>
-            <div class="mb-3 text-center mt-5">
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>
-            
-        </form>
+        <header>
+            <?php 
+            require "./files/header.php";
+            ?>
+        </header>
+        <div class="container mt-5">
+            <?php if(isset($alert)) echo $alert;?>
+                <h1 class="mt-5">CONTACT US</h1>
+                    <form action="" method="POST" class="mt-5 pt-5">
+       
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name and last name *</label>
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe" required>
+                            <input type="text" name="website" id="website" value="">
+                        </div>
+                        <div class="mb-3">
+                            <input type="radio" name="gender" value="female">
+                            <label for="gender">Female  </label>
+                            <input type="radio" name="gender" value="male">
+                            <label for="gender">Male</label>
+                            <input type="radio" name="gender" value="other">
+                            <label for="gender">Other</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address *</label>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="email address" placeholder="john.doe@domain.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Your country *</label>
+                            <select class="form-select" id="country" name="country" multiple aria-label="select a country" required>
+                                <option selected>Belgium</option>
+                                <?php 
+                                foreach($countries as $country){?>
+                                <option value="<?php echo $country?>"><?php echo $country?></option>
+                                <?php 
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Subject of your enquiry </label>
+                            <select class="form-select" id="subject" name="subject" multiple aria-label="select a subject">
+                                <option selected>select a subject</option>
+                                <option value="My account">My account</option>
+                                <option value="My bill">My bill</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Your message *</label>
+                            <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                            <p class="small">* Required</p>
+                        </div>
+                        <div class="mb-3 text-center mt-5">
+                            <button type="submit" name="submit" id="submit">Submit</button>
+                        </div>
+                    </form>
+        </div>
+        
     </div>
-    </div>
+    <?php require './files/footer.php'?>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

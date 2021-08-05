@@ -3,11 +3,19 @@
 body{
     margin: 0;
     padding: 0;
-    background-image: linear-gradient(#303030, #0d8187);
+    background-image: linear-gradient(#303030,#10bec7, #0d8187);
 }
 
 header{
     text-align: center;
+    margin-bottom: 1rem;
+
+    
+
+    .active{
+        border: 3px solid #0ae4f0;
+        border-radius: 25px;
+    }
     
 
     img{
@@ -33,9 +41,10 @@ header{
     }
 }
 
-header h1{
+h1{
     font-family: 'Bellota Text', cursive;
     color: #fff;
+    text-align: center;
 }
 
 
@@ -54,7 +63,7 @@ form{
 
     p,label{
         font-family: 'Bellota Text', cursive;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         color:#FFF;
     }
 
@@ -62,6 +71,20 @@ form{
         display: none; 
     }
 
+    button{
+        background-color: #0ae4f0;
+        border: 1px solid #0ae4f0;
+        border-radius: 25px;
+        font-size: 1rem;
+        padding: 15px;
+    }
+
+    
+}
+
+#copyright{
+    color: white;
+    text-decoration: none;
     
 }
 

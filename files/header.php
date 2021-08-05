@@ -1,5 +1,5 @@
 
-        <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid mt-2">
                 <a class="navbar-brand h1" href="#"></a>
                 <img src="./assets/img/logo.png" alt="logo Hackers Poulette">
@@ -18,6 +18,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link h2 text-white active" aria-current="page" href="#">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link h2 text-white" href="#">About Us</a>
                         </li>
                     </ul>
                 </div>
