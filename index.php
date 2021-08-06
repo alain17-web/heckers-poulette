@@ -9,12 +9,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POST['subject'])){
 
         $name = htmlspecialchars(strip_tags(trim($_POST['name'])),ENT_QUOTES);
-        $gender = htmlspecialchars(strip_tags(trim($_POST['gender'])),ENT_QUOTES);
+        $gender = strip_tags(trim($_POST['gender']));
         $themail = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
         $country = htmlspecialchars(strip_tags(trim($_POST['country'])),ENT_QUOTES);
         $subject = htmlspecialchars(strip_tags(trim($_POST['subject'])),ENT_QUOTES);
         $message = htmlspecialchars(strip_tags(trim($_POST['message'])),ENT_QUOTES);
-
     
     
     if(!empty($name) && !empty($gender) && !empty($themail) && !empty($country) && !empty($message)){
@@ -49,7 +48,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             $phpmailer->Subject = $subject;
             $phpmailer->Body = $message;
             $send = $phpmailer->send();
-            var_dump($send);
+            
             if($send){
                 $alert = "<div class='container-fluid mt-2>
                             <div class='row text-center'>
@@ -74,8 +73,8 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             }
     }
     else{
-        $alert =  "<div class='container-fluid mt-5 pt-5>
-                <div class='row text-center mt-5'>
+         $alert =  "<div class='container-fluid mt-5 pt-5>
+                    <div class='row text-center mt-5'>
                     <div class='alert alert-danger text-center mx-auto'>
                     <h2 class='display-4'>All the fields are required</h2>
                     <a href='' onclick='window.history.go(-1); return false' class='h3'>Back to form</a>
@@ -121,7 +120,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
                         </div>
                         <div class="mb-3">
                             <input type="radio" name="gender" value="female">
-                            <label for="gender">Female  </label>
+                            <label for="gender">Female</label>
                             <input type="radio" name="gender" value="male">
                             <label for="gender">Male</label>
                             <input type="radio" name="gender" value="other">
