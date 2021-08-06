@@ -9,14 +9,14 @@ use PHPMailer\PHPMailer\PHPMailer;
 if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POST['subject'])){
 
         $name = htmlspecialchars(strip_tags(trim($_POST['name'])),ENT_QUOTES);
-        $gender = strip_tags(trim($_POST['gender']));
+        $gender = htmlspecialchars(strip_tags(trim($_POST['gender'])),ENT_QUOTES);
         $themail = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
         $country = htmlspecialchars(strip_tags(trim($_POST['country'])),ENT_QUOTES);
         $subject = htmlspecialchars(strip_tags(trim($_POST['subject'])),ENT_QUOTES);
         $message = htmlspecialchars(strip_tags(trim($_POST['message'])),ENT_QUOTES);
     
     
-    if(!empty($name) && !empty($gender) && !empty($themail) && !empty($country) && !empty($message)){
+    if(!empty($name) && !empty($themail) && !empty($country) && !empty($message)){
 
             //method by mail() with headers
             
@@ -50,7 +50,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             $send = $phpmailer->send();
             
             if($send){
-                $alert = "<div class='container-fluid mt-2>
+                echo "<div class='container-fluid mt-2>
                             <div class='row text-center'>
                                 <div class='alert alert-success text-center mx-auto'>
                                     <h2 class='display-4'>Your email has been sent</h2>
@@ -61,26 +61,26 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             }
             
             else{
-                $alert =  "<div class='container-fluid mt-5 pt-5>
+                echo "<div class='container-fluid mt-5 pt-5>
                             <div class='row text-center mt-5'>
                                 <div class='alert alert-danger text-center mx-auto'>
                                     <h2 class='display-4'>The email could not be sent. Try again</h2>
-                                    <a href='' onclick='window.history.go(-1); return false' class='h3'>Back to form</a>
+                                    <a href='' class='h3'>Back to form</a>
                                 </div>
                             </div>
                         </div>";
-                echo 'Mailer Error: ' . $phpmailer->ErrorInfo;
+                //echo 'Mailer Error: ' . $phpmailer->ErrorInfo;
             }
     }
     else{
-         $alert =  "<div class='container-fluid mt-5 pt-5>
-                    <div class='row text-center mt-5'>
-                    <div class='alert alert-danger text-center mx-auto'>
-                    <h2 class='display-4'>All the fields are required</h2>
-                    <a href='' onclick='window.history.go(-1); return false' class='h3'>Back to form</a>
+         echo "<div class='container-fluid mt-5 pt-5>
+                        <div class='row text-center mt-5'>
+                            <div class='alert alert-danger text-center mx-auto'>
+                                <h2 class='display-4'>All the fields are required</h2>
+                                <a href='' onclick='window.history.go(-1); return false' class='h3'>Back to form</a>
+                         </div>
                     </div>
-                </div>
-            </div>";
+            </div>";  
     }
 
 }
@@ -109,13 +109,16 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
             ?>
         </header>
         <div class="container mt-5">
-            <?php if(isset($alert)) echo $alert;?>
+            <?php if(isset($alert)){
+                echo $alert;
+                
+            } ?>
                 <h1 class="mt-5">CONTACT US</h1>
                     <form action="" method="POST" class="mt-5 pt-5">
        
                         <div class="mb-3">
                             <label for="name" class="form-label">Name and last name *</label>
-                            <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe" required>
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe">
                             <input type="text" name="website" id="website" value="">
                         </div>
                         <div class="mb-3">
