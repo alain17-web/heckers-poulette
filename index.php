@@ -118,7 +118,7 @@ if(isset($_POST['name'],$_POST['gender'],$_POST['email'],$_POST['country'],$_POS
        
                         <div class="mb-3">
                             <label for="name" class="form-label">Name and last name *</label>
-                            <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe">
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="name and last name" placeholder="John Doe" required>
                             <input type="text" name="website" id="website" value="">
                         </div>
                         <div class="mb-3">
