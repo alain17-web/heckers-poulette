@@ -1,4 +1,4 @@
-# heckers-poulette
+# hackers-poulette
 PHP project: form with email in HTML,CSS,Bootstrap,Sass,PHP,JQuery
 
 [Go to website](https://hackerspoulette2.herokuapp.com)
